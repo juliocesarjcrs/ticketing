@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import { BadRequesError } from "../errors/bad-resquet-error";
-import { validateRequest } from "../middlewares/validate-request";
+import { BadRequestError, validateRequest } from "@jcrstickets/common";
 import { User } from "../models/user";
 import { Password } from "../services/password";
 import jwt from "jsonwebtoken";
@@ -21,14 +20,14 @@ router.post(
         const { email, password } = req.body;
         const existingUser = await User.findOne({ email });
         if (!existingUser) {
-            throw new BadRequesError("Invalid credencials 1");
+            throw new BadRequestError("Invalid credencials 1");
         }
         const passwordsMatch = await Password.compare(
             existingUser.password,
             password
         );
         if (!passwordsMatch) {
-            throw new BadRequesError("Invalid credencials 2");
+            throw new BadRequestError("Invalid credencials 2");
         }
         try {
           // Generate JWT

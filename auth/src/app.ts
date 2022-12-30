@@ -6,9 +6,7 @@ import { currentUserRouter } from "./routes/current-user";
 import { siginRouter } from "./routes/sigin";
 import { signupRouter } from "./routes/siginup";
 import { siginoutRouter } from "./routes/siginout";
-import { errorHandler } from "./middlewares/error-handler";
-import { NotFoundError } from "./errors/not-found-error";
-
+import { errorHandler, NotFoundError } from "@jcrstickets/common";
 const app = express();
 app.set('trust proxy', true);
 app.use(json());

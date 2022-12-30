@@ -2,8 +2,8 @@ import express, { Request, Response} from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user";
-import { BadRequesError } from "../errors/bad-resquet-error";
-import { validateRequest } from "../middlewares/validate-request";
+import { BadRequestError } from "@jcrstickets/common";;
+import { validateRequest } from "@jcrstickets/common";;
 const router = express.Router();
 
 router.post("/api/users/signup", [
@@ -22,7 +22,7 @@ async (req: Request, res: Response) => {
 
   const  existingUser = await User.findOne({email});
   if (existingUser) {
-    throw new BadRequesError("Email in use");
+    throw new BadRequestError("Email in use");
   }
  const user = User.build({ email, password});
  await user.save();
