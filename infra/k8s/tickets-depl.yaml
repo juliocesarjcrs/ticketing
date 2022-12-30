@@ -16,6 +16,8 @@ spec:
       - name: tickets
         image: juliocesarjcrs/ticketing-tickets:latest
         env:
+          - name: MONGO_URL
+            value: 'mongodb://tickets-mongo-srv:27017/tickets'
           - name: JWT_KEY
             valueFrom:
               secretKeyRef:
