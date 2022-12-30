@@ -10,8 +10,8 @@ const Header = ({ currentUser }) => {
     .map(({ label, href }) => {
       return (
         <li key={href} className="nav-item">
-          <Link href={href}>
-            <a className="nav-link">{label}</a>
+          <Link href={href} className="nav-link">
+            {label}
           </Link>
         </li>
       );
@@ -19,8 +19,8 @@ const Header = ({ currentUser }) => {
 
   return (
     <nav className="navbar navbar-light bg-light">
-      <Link href="/">
-        <a className="navbar-brand">GitTix</a>
+      <Link href="/" className="navbar-brand">
+        GitTix
       </Link>
 
       <div className="d-flex justify-content-end">
