@@ -2,6 +2,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import request from 'supertest';
 import { app } from "../app";
+import jwt from 'jsonwebtoken';
 let mongo: any;
 beforeAll(async () => {
     process.env.JWT_KEY = 'asdf';
@@ -25,18 +26,22 @@ afterAll(async () => {
 });
 
 declare global {
-    var signin: () => Promise<string[]>;
+    var signin: () => string[];
   }
 
-  global.signin = async  () => {
-    const email = 'test@test.com';
-    const password = 'password';
+  global.signin = () => {
+    // Build a JWT payload. {id, email}
+    const payload = {
+        id: 'dasdas',
+        email: 'test@test.com'
+    };
 
-    const response = await request(app)
-    .post('/api/users/signup')
-    .send({
-        email, password
-    })
-    .expect(201);
-    return response.get("Set-Cookie");
+    // Create ateh JWT
+    const token =  jwt.sign(payload, process.env.JWT_KEY!);
+    const session = { jwt: token};
+    // Take JSON and encode it as base64
+    const sessionJSON = JSON.stringify(session);
+
+    const base64 = Buffer.from(sessionJSON).toString('base64');
+    return [`session=${base64}`];
   }
